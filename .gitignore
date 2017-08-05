@@ -1,0 +1,10 @@
+# Ignore Python and OS files
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+
+# Ignore the data directory
+data
+
+# Ignore trained models
+*.h5
