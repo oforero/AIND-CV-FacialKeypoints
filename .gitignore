@@ -8,3 +8,6 @@ data
 
 # Ignore trained models
 *.h5
+
+# ignore videos
+*.mov
