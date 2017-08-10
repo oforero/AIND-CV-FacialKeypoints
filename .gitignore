@@ -11,3 +11,6 @@ data
 
 # ignore videos
 *.mov
+
+# ignor Vim swp files
+*.sw?

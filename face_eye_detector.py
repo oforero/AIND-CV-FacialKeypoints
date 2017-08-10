@@ -123,7 +123,7 @@ def put_glasses(face, glasses, face_markers, left=9, right=7, offset=15, glasses
     face[ly:ly+bh, lx:lx+bw] = face[ly:ly+bh, lx:lx+bw] * (1 - alpha_rz) + glasses_rz * alpha_rz
 
 
-def detect_face_add_glasses_cnn(model, img_color, img_gray, faces):
+def detect_faces_add_glasses_cnn(model, img_color, img_gray, faces):
     sunglasses = cv2.imread("images/sunglasses_4.png", cv2.IMREAD_UNCHANGED)
 
     for (x,y,w,h) in faces:
@@ -144,7 +144,30 @@ def detect_face_add_glasses_cnn(model, img_color, img_gray, faces):
     return img_color
 
 
-def detect_faces_add_glasses(model, image):
-    return detect_face_add_glasses_cnn(model, *detect_faces(image, draw_box=False))
+def detect_faces_add_glasses(model, image, draw_box=True):
+    return detect_faces_add_glasses_cnn(model, *detect_faces(image, draw_box))
 
 
+def process_picture(in_file, out_file, effect):
+    img = cv2.imread(in_file)
+    model = load_model("my_model.h5")
+    #out_img = detect_faces_and_eyes(img)
+    out_img = detect_faces_add_glasses(model, img)
+    cv2.imwrite(out_file, out_img)
+
+
+def main(argv):
+    if len(argv) < 3:
+        print("invalid number of arguments")
+    
+    if len(argv) == 3:
+        argv.append('MARKERS')
+    
+    _, in_file, out_file, effect = argv
+
+    process_picture(in_file, out_file, effect)
+
+if __name__ == '__main__':
+    import sys
+
+    main(sys.argv)
